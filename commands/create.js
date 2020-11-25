@@ -22,7 +22,7 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
         .setTitle('__' + message.member.displayName + ' запустил нового Анонимного Деда Мороза!__')
-        .setDescription('React with 🎅 to join!')
+        .setDescription('Добавьте реакцию 🎅, чтобы присоединиться!')
         .setFooter(message.member.displayName + ' может начать распределение командой ' + config.prefix + 'start') // TODO!!
         .setColor(config.embeds_color)
 
