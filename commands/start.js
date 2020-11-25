@@ -6,7 +6,7 @@ const methods   = require('../utils/methods');
 module.exports = {
     name: 'start',
     aliases: [''],
-    description: 'Assigns everyone a random gift partner!',
+    description: 'Назначает всем случайного партнёра!',
     hasArgs: false,
     requirePartner: false,
     worksInDM: true,
@@ -18,18 +18,19 @@ module.exports = {
         const row = (await query(`SELECT * FROM users WHERE userId = ${message.author.id}`))[0];
         const exchangeRow = (await query(`SELECT * FROM users INNER JOIN exchange ON users.exchangeId = exchange.exchangeId WHERE userId = ${message.author.id}`))[0];
 
-        if(row.exchangeId == 0) return message.reply('You aren\'t in a Secret Santa.');
+        if(row.exchangeId == 0) return message.reply('Вы не участвуете в АДМ.');
 
-        else if(!exchangeRow || exchangeRow.userId !== exchangeRow.creatorId) return message.reply('You can\'t start a Secret Santa that you didn\'t create.\n\nAsk `' + (await message.client.users.fetch(exchangeRow.creatorId)).tag + '` to start it.');
+        else if(!exchangeRow || exchangeRow.userId !== exchangeRow.creatorId) return message.reply('Вы не можете начать АДМ, который не создавали.\n\n' + 
+            'Обратитесь к  `' + (await message.client.users.fetch(exchangeRow.creatorId)).tag + '` чтобы начать его.');
 
-        else if(exchangeRow.started == 1) return message.reply('The Secret Santa has already started!');
+        else if(exchangeRow.started == 1) return message.reply('АДМ уже начат!');
 
         await query(`UPDATE exchange SET started = 1 WHERE exchangeId = ${exchangeRow.exchangeId}`);
-        const botMsg = await message.reply('Shuffling participants and messaging...');
+        const botMsg = await message.reply('Перемешиваем участников и рассылаем сообщения...');
 
         await pickRandom(message, exchangeRow.exchangeId, prefix);
 
-        botMsg.edit('Successfully started your Secret Santa!');
+        botMsg.edit('Ваш АДМ успешно начат!');
     },
 }
 
@@ -52,9 +53,11 @@ async function pickRandom(message, exchangeId, prefix){
             const user = await message.client.users.fetch(userIds[i]);
 
             const startEmbed = new Discord.MessageEmbed()
-            .setTitle('__Secret Santa Started!__')
-            .setDescription('You were chosen to gift: <@' + partnerId + '> 🎄' + (partnerInfo.wishlist == '' ? '' : '\n\nHere\'s their wishlist:\n```' + partnerInfo.wishlist + '```') + '\n\nYou can message them with `' + prefix + 'message giftee <message>`')
-            .setFooter('Shhhhhhhhh')
+            .setTitle('__Анонимны Дед Мороз начался!__')
+            .setDescription('Вы были выбраны в качестве Деда Мороза для: <@' + partnerId + '> 🎄' 
+                + (partnerInfo.wishlist == '' ? '' : '\n\nВот их пожелания:\n```' + partnerInfo.wishlist + '```') + 
+                '\n\nВы можете отправить им анонимное сообщение командой `' + prefix + 'message получатель <сообщение>`')
+            .setFooter('Тссссссссс')
             .setColor(config.embeds_color)
 
             await user.send(startEmbed)

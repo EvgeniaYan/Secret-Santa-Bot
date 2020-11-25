@@ -10,20 +10,20 @@ exports.handleCmd = async function(message, prefix){
 
     if(!command) return; // Command doesnt exist
 
-    else if(!command.worksInDM && message.channel.type !== 'text') return message.reply('That command doesn\'t work in DMs!');
+    else if(!command.worksInDM && message.channel.type !== 'text') return message.reply('Эта команда не работает в личных сообщениях!');
 
-    else if(command.forceDMsOnly && message.channel.type !== 'dm') return message.reply('That command only works in DMs!');
+    else if(command.forceDMsOnly && message.channel.type !== 'dm') return message.reply('Эта команда работает только в личных сообщениях!');
 
     if(message.channel.type !== 'dm') await cacheMembers(message);
     if(!(await query(`SELECT * FROM users WHERE userId = ${message.author.id}`)).length) await methods.createNewUser(message.author.id); // Create new account in database for user BEFORE executing a command.
 
     const row = (await query(`SELECT * FROM users WHERE userId = ${message.author.id}`))[0];
 
-    if(command.requirePartner && row.partnerId == 0) return message.reply('A partner has not been chosen for you yet! Try again after you\'ve been given a partner.');
+    if(command.requirePartner && row.partnerId == 0) return message.reply('Вам ещё не был назначен пртнёр! Попробуйте, когда партнёр будет назначен.');
 
-    else if(command.guildModsOnly && !message.member.hasPermission("MANAGE_GUILD")) return message.reply('You need the `MANAGE_SERVER` permission to run that command.');
+    else if(command.guildModsOnly && !message.member.hasPermission("MANAGE_GUILD")) return message.reply('Вам требуется разрешение `MANAGE_SERVER` для выполнения этой команды.');
 
-    else if(command.adminOnly && !message.client.sets.adminUsers.has(message.author.id)) return message.reply('You must be an admin of the bot to run that command.');
+    else if(command.adminOnly && !message.client.sets.adminUsers.has(message.author.id)) return message.reply('Вы должны быть админом бота, чтобы выполнить эту команду.');
 
     try{
         command.execute(message, args, prefix); // CALL COMMAND HERE

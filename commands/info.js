@@ -6,7 +6,7 @@ const config      = require('../json/config.json');
 module.exports = {
     name: 'info',
     aliases: ['botinfo', 'update', 'version', 'stats'],
-    description: 'Displays various information about the bot.',
+    description: 'Отображает различную инфу о боте.',
     hasArgs: false,
     requirePartner: false,
     worksInDM: true,
@@ -25,7 +25,7 @@ module.exports = {
         embedInfo.addField("Active Servers", message.client.guilds.cache.size, true)
         embedInfo.addField("Version", "`" + version +"`", true)
         embedInfo.addField("Memory Usage", Math.round(used) + "/" + Math.round(os.totalmem() / 1024 / 1024) + " MB", true)
-        embedInfo.addField("Creators", "blobfysh#4679", true)
+        embedInfo.addField("Creators", "blobfysh#4679", true)        
         message.channel.send(embedInfo);
     },
 }

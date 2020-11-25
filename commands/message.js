@@ -6,7 +6,7 @@ const methods   = require('../utils/methods');
 module.exports = {
     name: 'message',
     aliases: [''],
-    description: 'Message your secret gifter or giftee.',
+    description: 'Отправляет сообщение вашему анонимному дарителю или получателю.',
     hasArgs: true,
     requirePartner: true,
     worksInDM: true,
@@ -19,46 +19,50 @@ module.exports = {
         const gifterRow = (await query(`SELECT * FROM users WHERE partnerId = ${message.author.id}`))[0];
         const exchangeRow = (await query(`SELECT * FROM users INNER JOIN exchange ON users.exchangeId = exchange.exchangeId WHERE userId = ${message.author.id}`))[0];
 
-        if(row.exchangeId == 0) return message.reply('You aren\'t in a Secret Santa.');
+        if(row.exchangeId == 0) return message.reply('Вы не участвуете в АДМ.');
 
-        else if(!args.length) return message.reply('You need to specify who you\'re going to message! `' + prefix + 'message <gifter/giftee> <message to send>`.\n\ngiftee - The person you were chosen to get a gift for (<@' + row.partnerId + '>).\ngifter - The person gifting you');
+        else if(!args.length) 
+            return message.reply('Нужно указать кому сообщение! `' + prefix + 'message <даритель/получатель> <сообщение>`.\n\n' + 
+            'получатель - человек, которому вы дарите подаров (<@' + row.partnerId + '>).\nдаритель - человек, дарящий подарок вам.');
 
-        else if(args[0] !== 'giftee' && args[0] !== 'gifter') return message.reply('You need to specify who you\'re going to message! `' + prefix + 'message <gifter/giftee> <message to send>`.\n\ngiftee - The person you were chosen to get a gift for (<@' + row.partnerId + '>).\ngifter - The person gifting you');
+        else if(args[0] !== 'получатель' && args[0] !== 'даритель') 
+            return message.reply('Нужно указать кому сообщение! `' + prefix + 'message <даритель/получатель> <сообщение>`.\n\n' + 
+                'получатель - человек, которому вы дарите подаров (<@' + row.partnerId + '>).\nдаритель - человек, дарящий подарок вам.');
 
-        else if(args[0] == 'giftee'){
+        else if(args[0] == 'получатель'){
             const gifteeEmbed = new Discord.MessageEmbed()
-            .setTitle('__You received an anonymous message from your Secret Santa!__')
+            .setTitle('__Выполучили сообщение от Анонимного Деда Мороза!__')
             .setDescription('\n' + args.slice(1).join(' '))
             .setColor(config.embeds_color)
-            .setFooter('You can respond with ' + prefix + 'message gifter <message>')
+            .setFooter('Вы можете ответить командой ' + prefix + 'message даритель <сообщение>')
             .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/father-christmas_1f385.png')
 
             try{
                 const giftee = await message.client.users.fetch(row.partnerId);
                 await giftee.send(getAttachments(message, gifteeEmbed));
 
-                message.reply('Successfully sent your message anonymously to <@' + row.partnerId + '>!');
+                message.reply('Ваше сообщение отправлено анонимно <@' + row.partnerId + '>!');
             }
             catch(err){
-                message.reply('Error sending message: ```' + err + '```');
+                message.reply('Ошибка при отправке сообщения: ```' + err + '```');
             }
         }
-        else if(args[0] == 'gifter'){
+        else if(args[0] == 'даритель'){
             const gifterEmbed = new Discord.MessageEmbed()
-            .setTitle('__You received a message from your giftee ' + message.author.tag + '!__')
+            .setTitle('__Вы получили сообщение от вашего получателя ' + message.author.tag + '!__')
             .setDescription('\n' + args.slice(1).join(' '))
             .setColor(config.embeds_color)
-            .setFooter('You can respond with ' + prefix + 'message giftee <message>')
+            .setFooter('Вы можете ответить командой ' + prefix + 'message получатель <сообщение>')
             .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/incoming-envelope_1f4e8.png')
 
             try{
                 const gifter = await message.client.users.fetch(gifterRow.userId);
                 await gifter.send(getAttachments(message, gifterEmbed));
 
-                message.reply('Successfully sent message to your gifter!');
+                message.reply('Ваше сообщение отправлено дарителю!');
             }
             catch(err){
-                message.reply('Error sending message: ```' + err + '```');
+                message.reply('Ошибка при отправке сообщения: ```' + err + '```');
             }
         }
     },

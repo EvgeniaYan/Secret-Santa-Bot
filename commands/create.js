@@ -6,7 +6,7 @@ const methods   = require('../utils/methods');
 module.exports = {
     name: 'create',
     aliases: [''],
-    description: 'Creates a new secret santa for everyone to join.',
+    description: 'Создает нового АДМ, к которому все могут присоединиться.',
     hasArgs: false,
     requirePartner: false,
     worksInDM: false,
@@ -18,12 +18,12 @@ module.exports = {
     async execute(message, args, prefix){
         const row = (await query(`SELECT * FROM users WHERE userId = ${message.author.id}`))[0];
 
-        if(row.exchangeId !== 0) return message.reply('You are already in a Secret Santa! Ask the creator of the secret santa to cancel it before making a new one.');
+        if(row.exchangeId !== 0) return message.reply('Вы уже участвуете в АДМ! Перед тем как создавать нового АДМ, попросите создателя существующего отменить его.');
 
         const embed = new Discord.MessageEmbed()
-        .setTitle('__' + message.member.displayName + ' started a new Secret Santa!__')
+        .setTitle('__' + message.member.displayName + ' запустил нового Анонимного Деда Мороза!__')
         .setDescription('React with 🎅 to join!')
-        .setFooter(message.member.displayName + ' can draw names with ' + config.prefix + 'start')
+        .setFooter(message.member.displayName + ' может начать распределение командой ' + config.prefix + 'start') // TODO!!
         .setColor(config.embeds_color)
 
         const botMessage = await message.channel.send(embed);

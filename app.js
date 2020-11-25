@@ -96,7 +96,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
         await query(`UPDATE users SET exchangeId = ${exchangeId} WHERE userId = ${user.id}`);
 
         const joinEmbed = new Discord.MessageEmbed()
-        .setDescription(`__Successfully joined <@${exchange.creatorId}>'s Secret Santa!__\nI will let you know when names are drawn!`)
+        .setDescription(`__Вы успешно присоединились к Анонимному Деду Морозу от <@${exchange.creatorId}>!__\nЯ дам вам знать, когда всё начнется!`)
         .setColor(config.embeds_color)
 
         const recipient = await client.users.fetch(user.id);
@@ -106,7 +106,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 });
 
 process.on('unhandledRejection', (reason, p) => {
-	console.error('[APP][' + new Date().toLocaleString(undefined, {timeZone: 'America/New_York'}) + '] Unhandled Rejection: ', reason);
+	console.error('[APP][' + new Date().toLocaleString(undefined, {timeZone: 'Europe/Samara'}) + '] Unhandled Rejection: ', reason);
 });
 
 client.login(config.botToken);

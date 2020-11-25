@@ -6,7 +6,7 @@ const methods   = require('../utils/methods');
 module.exports = {
     name: 'participants',
     aliases: ['exchangeinfo', 'listparticipants'],
-    description: 'Show who is participating in your Secret Santa.',
+    description: 'Показывает, кто участвует в АДМ.',
     hasArgs: false,
     requirePartner: false,
     worksInDM: true,
@@ -19,7 +19,7 @@ module.exports = {
         const rows = (await query(`SELECT * FROM users WHERE exchangeId = ${row.exchangeId}`));
         const exchangeRow = (await query(`SELECT * FROM exchange WHERE exchangeId = ${row.exchangeId}`))[0];
 
-        if(row.exchangeId == 0) return message.reply('You aren\'t in a Secret Santa.');
+        if(row.exchangeId == 0) return message.reply('Вы не участвуете в АДМ.');
 
         var userTags = [];
 
@@ -28,10 +28,10 @@ module.exports = {
         }
 
         const embed = new Discord.MessageEmbed()
-        .setTitle('__Participants__')
+        .setTitle('__Участники__')
         .setDescription(userTags.map((user, index) => (index + 1) + '. ' + user).join('\n'))
         .setColor(config.embeds_color)
-        .setFooter('Started by ' + (await message.client.users.fetch(exchangeRow.creatorId)).username)
+        .setFooter('Запущено ' + (await message.client.users.fetch(exchangeRow.creatorId)).username)
 
         message.channel.send(embed);
     },
