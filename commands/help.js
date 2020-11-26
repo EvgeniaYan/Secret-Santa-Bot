@@ -16,12 +16,12 @@ module.exports = {
 
     async execute(message, args, prefix){
         if(args[0] == undefined){
-            var helpArr = message.client.commands.filter(cmd => !cmd.adminOnly && cmd.name !== 'help').map(cmd => '`' + cmd.name + '` - ' + cmd.description);
+            var helpArr = message.client.commands.filter(cmd => !cmd.adminOnly && cmd.name !== 'help').map(cmd => '`' + prefix + cmd.name + '` - ' + cmd.description);
 
             const helpEmbed = new Discord.MessageEmbed()
             .setTitle('__Команды Анонимного Деда Мороза (АДМ)__')
             .setDescription(helpArr.map((cmd, index) => (index + 1) + '. ' + cmd))
-            .setFooter('Используйте ' + prefix + 'help <command> для получения справки по команде.')
+            .setFooter('Используйте ' + prefix + 'help <команда> для получения справки по команде.')
             .setColor(config.embeds_color)
 
             message.channel.send(helpEmbed);
@@ -29,7 +29,7 @@ module.exports = {
         else{
             const command = message.client.commands.get(args[0]) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
 
-            if(!command) return message.reply('Такая команда не существует.');
+            if(!command) return message.reply('Такой команды не существует.');
 
             var embedDesc = [command.description];
 
@@ -39,14 +39,14 @@ module.exports = {
 
             if(command.adminOnly) embedDesc.push('Эту команду могут использовать только админы бота.');
 
-            if(command.hasArgs) embedDesc.push('Эта команда требует параметры.');
+            if(command.hasArgs) embedDesc.push('У этой команды есть параметры.');
 
             if(command.requirePartner) embedDesc.push('Для этой команды нужно, чтобы у вас уже был партнёр.');
 
             if(command.guildModsOnly) embedDesc.push('Для этого команды нужно, чтобы у вас было разрешение `MANAGE_SERVER`.');
 
             const cmdEmbed = new Discord.MessageEmbed()
-            .setTitle('__Команда' + (command.name.charAt(0).toUpperCase() + command.name.slice(1)) + '__')
+            .setTitle('__Команда ' + (command.name.charAt(0).toUpperCase() + command.name.slice(1)) + '__')
             .setDescription(embedDesc.map(cmd => '- ' + cmd).join('\n\n'))
             .setColor(config.embeds_color)
 

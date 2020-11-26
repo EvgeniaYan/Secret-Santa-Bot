@@ -6,7 +6,7 @@ const methods   = require('../utils/methods');
 module.exports = {
     name: 'message',
     aliases: [''],
-    description: 'Отправляет сообщение вашему анонимному дарителю или получателю.',
+    description: 'Отправляет сообщение Деду Морозу или получателю.',
     hasArgs: true,
     requirePartner: true,
     worksInDM: true,
@@ -31,10 +31,10 @@ module.exports = {
 
         else if(args[0] == 'получатель'){
             const gifteeEmbed = new Discord.MessageEmbed()
-            .setTitle('__Выполучили сообщение от Анонимного Деда Мороза!__')
+            .setTitle('__Вы получили сообщение от Анонимного Деда Мороза!__')
             .setDescription('\n' + args.slice(1).join(' '))
             .setColor(config.embeds_color)
-            .setFooter('Вы можете ответить командой ' + prefix + 'message даритель <сообщение>')
+            .setFooter('Вы можете ответить командой `' + prefix + 'message даритель <сообщение>`')
             .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/father-christmas_1f385.png')
 
             try{
@@ -52,7 +52,7 @@ module.exports = {
             .setTitle('__Вы получили сообщение от вашего получателя ' + message.author.tag + '!__')
             .setDescription('\n' + args.slice(1).join(' '))
             .setColor(config.embeds_color)
-            .setFooter('Вы можете ответить командой ' + prefix + 'message получатель <сообщение>')
+            .setFooter('Вы можете ответить командой `' + prefix + 'message получатель <сообщение>`')
             .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/incoming-envelope_1f4e8.png')
 
             try{

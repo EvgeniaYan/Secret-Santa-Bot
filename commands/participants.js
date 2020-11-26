@@ -12,7 +12,7 @@ module.exports = {
     worksInDM: true,
     forceDMsOnly: false,
     modOnly: false,
-    adminOnly: false,
+    adminOnly: true,
 
     async execute(message, args, prefix){
         const row = (await query(`SELECT * FROM users WHERE userId = ${message.author.id}`))[0];

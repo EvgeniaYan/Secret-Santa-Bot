@@ -6,7 +6,7 @@ const methods   = require('../utils/methods');
 module.exports = {
     name: 'partnerinfo',
     aliases: [''],
-    description: 'Показывает информацию о вашем партнёре (например пожелания).',
+    description: 'Показывает информацию о вашем партнёре и его пожелания.',
     hasArgs: false,
     requirePartner: true,
     worksInDM: true,
@@ -17,13 +17,13 @@ module.exports = {
     async execute(message, args, prefix){
         const row = (await query(`SELECT * FROM users WHERE userId = ${message.author.id}`))[0];
         const partnerRow = (await query(`SELECT * FROM users WHERE userId = ${row.partnerId}`))[0];
-        const wishList = partnerRow.wishlist || 'Нет пожеланий.';
+        const wishList = partnerRow.wishlist || 'Нет пожеланий ¯\\_(ツ)_/¯';
 
         const partnerEmbed = new Discord.MessageEmbed()
-        .setTitle('__Информация о портнёре__')
+        .setTitle('__Информация о партнёре__')
         .setDescription('<@' + row.partnerId + '>\n\nПожелания: ```' + wishList + '```')
         .setColor(config.embeds_color)
-        .setFooter('Нужно больше информации? Напишите им анонимное сообщение командой `message`!')
+        .setFooter('Нужно больше информации? Напишите им анонимное сообщение командой `' + prefix + 'message`!')
 
         message.channel.send(partnerEmbed);
     },

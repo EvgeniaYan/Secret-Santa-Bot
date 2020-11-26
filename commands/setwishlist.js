@@ -6,7 +6,7 @@ const methods   = require('../utils/methods');
 module.exports = {
     name: 'setwishlist',
     aliases: ['wishlist'],
-    description: 'Редактирует ваши пожелания, чтобы Дед Мороз знал, что вам подарить!',
+    description: 'Редактирует пожелания, чтобы Дед Мороз знал, что вам подарить!',
     hasArgs: true,
     requirePartner: false,
     worksInDM: true,
@@ -18,7 +18,7 @@ module.exports = {
         var wishlistToSet = args.join(' ');
 
         if(wishlistToSet.length >= 1000){
-            return message.reply('Выши пожелания должны уместиться в 1000 символов!');
+            return message.reply('Ваши пожелания должны уместиться в 1000 символов!');
         }
 
         await query(`UPDATE users SET wishlist = ? WHERE userId = ${message.author.id}`, [wishlistToSet]);

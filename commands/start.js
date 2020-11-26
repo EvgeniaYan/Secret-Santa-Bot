@@ -53,11 +53,11 @@ async function pickRandom(message, exchangeId, prefix){
             const user = await message.client.users.fetch(userIds[i]);
 
             const startEmbed = new Discord.MessageEmbed()
-            .setTitle('__Анонимны Дед Мороз начался!__')
+            .setTitle('__Анонимный Дед Мороз начался!__')
             .setDescription('Вы были выбраны в качестве Деда Мороза для: <@' + partnerId + '> 🎄' 
                 + (partnerInfo.wishlist == '' ? '' : '\n\nВот их пожелания:\n```' + partnerInfo.wishlist + '```') + 
                 '\n\nВы можете отправить им анонимное сообщение командой `' + prefix + 'message получатель <сообщение>`')
-            .setFooter('Тссссссссс')
+            .setFooter('Тссссссссс 🤐')
             .setColor(config.embeds_color)
 
             await user.send(startEmbed)

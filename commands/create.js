@@ -7,7 +7,7 @@ module.exports = {
     name: 'create',
     aliases: [''],
     description: 'Создает нового АДМ, к которому все могут присоединиться.',
-    hasArgs: false,
+    hasArgs: true,
     requirePartner: false,
     worksInDM: false,
     forceDMsOnly: false,
@@ -19,11 +19,13 @@ module.exports = {
         const row = (await query(`SELECT * FROM users WHERE userId = ${message.author.id}`))[0];
 
         if(row.exchangeId !== 0) return message.reply('Вы уже участвуете в АДМ! Перед тем как создавать нового АДМ, попросите создателя существующего отменить его.');
-
+        let deadline = args.join(' ');
         const embed = new Discord.MessageEmbed()
         .setTitle('__' + message.member.displayName + ' запустил нового Анонимного Деда Мороза!__')
-        .setDescription('Добавьте реакцию 🎅, чтобы присоединиться!')
-        .setFooter(message.member.displayName + ' может начать распределение командой ' + config.prefix + 'start') // TODO!!
+        .setDescription('Добавьте реакцию 🎅 чтобы присоединиться!' + 
+            'Снимите реакцию 🎅 чтобы выйти из круга!'+
+            (deadline ? '\n\nЖдём всех до ' + deadline + '!' : ''))
+        // .setFooter(message.member.displayName + ' может начать распределение командой ' + config.prefix + 'start') // TODO: добавить список тех, к кому можно обращаться
         .setColor(config.embeds_color)
 
         const botMessage = await message.channel.send(embed);

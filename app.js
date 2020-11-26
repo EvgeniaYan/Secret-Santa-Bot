@@ -73,6 +73,53 @@ client.on('ready', async () => {
     client.fullLockdown = false;
 });
 
+client.on('messageReactionRemove', async (reaction, user) => {
+    if(reaction.emoji.name !== '🎅') return;
+    if(reaction.message.author.bot) return;
+    const exchangeId = reaction.message.id
+    const exchange = (await query(`SELECT * FROM exchange WHERE exchangeId = ${exchangeId}`))[0];
+
+    // no exchange associated with message
+    if (!exchange) return;
+
+    if (exchange.started === 1) {
+        const leaveFailedEmbed = new Discord.MessageEmbed()
+        .setDescription(`Извините, но Анонимный Дед Мороз уже начался :( \nНапишите <@${exchange.creatorId}> пока не поздно!`) //TODO: вывести список всех организаторов
+        .setColor(config.embeds_color);
+
+        const recipient = await client.users.fetch(user.id);
+
+        recipient.send(leaveFailedEmbed);
+
+        
+        const leaveFailedEmbed2 = new Discord.MessageEmbed()
+        .setDescription(`<@${user.id}> попытался отсоединиться, но уже поздно :(`)
+        .setColor(config.embeds_color);
+
+        const org = await client.users.fetch(exchange.creatorId);
+
+        org.send(leaveFailedEmbed2);
+
+        return; 
+    }
+
+
+    let row = (await query(`SELECT * FROM users WHERE userId = ${user.id}`))[0];
+
+    if (row && row.exchangeId === 0) {
+        await query(`UPDATE users SET exchangeId = 0 WHERE userId = ${user.id}`);
+
+        const leaveEmbed = new Discord.MessageEmbed()
+        .setDescription(`__Вы вышли из Анонимного Деда Мороза!__\nНам будет вас не хватать 😢!`)
+        .setColor(config.embeds_color)
+
+        const recipient = await client.users.fetch(user.id);
+
+        recipient.send(joinEmbed);
+    }
+
+});
+
 client.on('messageReactionAdd', async (reaction, user) => {
     if(reaction.emoji.name !== '🎅') return;
 
@@ -83,7 +130,27 @@ client.on('messageReactionAdd', async (reaction, user) => {
     if(!exchange) return;
 
     // exchange already started
-    else if(exchange.started === 1) return;
+    else if(exchange.started === 1) {
+        reaction.users.remove(user.id);
+        const joinFailedEmbed = new Discord.MessageEmbed()
+        .setDescription(`Извините, но Анонимный Дед Мороз уже начался :( \nПопробуйте написать <@${exchange.creatorId}> пока не поздно!`)
+        .setColor(config.embeds_color);
+
+        const recipient = await client.users.fetch(user.id);
+
+        recipient.send(joinFailedEmbed);
+
+        
+        const joinFailedEmbed2 = new Discord.MessageEmbed()
+        .setDescription(`<@${user.id}> попытался присоединиться, но уже поздно :(`)
+        .setColor(config.embeds_color);
+
+        const org = await client.users.fetch(exchange.creatorId);
+
+        org.send(joinFailedEmbed2);
+
+        return; 
+    }
 
     let row = (await query(`SELECT * FROM users WHERE userId = ${user.id}`))[0];
 
