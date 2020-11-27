@@ -21,7 +21,8 @@ module.exports = {
             const helpEmbed = new Discord.MessageEmbed()
                 .setTitle('__Команды Анонимного Деда Мороза (АДМ)__')
                 .setDescription(helpArr.map((cmd, index) => (index + 1) + '. ' + cmd))
-                .setFooter('Используйте ' + prefix + 'help <команда> для получения справки по команде.')
+                .setFooter('Используйте `' + prefix + 'help <команда>` для получения справки по команде.' +
+                    '\nПодсказка: все команды работают в личных сообщениях!')
                 .setColor(config.embeds_color)
 
             await message.channel.send(helpEmbed);
