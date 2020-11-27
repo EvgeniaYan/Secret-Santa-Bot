@@ -13,11 +13,11 @@ module.exports = {
     forceDMsOnly: true,
     modOnly: false,
     adminOnly: false,
-    
-    async execute(message, args, prefix){
+
+    async execute(message, args, prefix) {
         var wishlistToSet = args.join(' ');
 
-        if(wishlistToSet.length >= 1000){
+        if (wishlistToSet.length >= 1000) {
             return message.reply('Ваши пожелания должны уместиться в 1000 символов!');
         }
 

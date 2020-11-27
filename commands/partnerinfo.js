@@ -14,16 +14,16 @@ module.exports = {
     modOnly: false,
     adminOnly: false,
 
-    async execute(message, args, prefix){
+    async execute(message, args, prefix) {
         const row = (await query(`SELECT * FROM users WHERE userId = ${message.author.id}`))[0];
         const partnerRow = (await query(`SELECT * FROM users WHERE userId = ${row.partnerId}`))[0];
         const wishList = partnerRow.wishlist || 'Нет пожеланий ¯\\_(ツ)_/¯';
 
         const partnerEmbed = new Discord.MessageEmbed()
-        .setTitle('__Информация о партнёре__')
-        .setDescription('<@' + row.partnerId + '>\n\nПожелания: ```' + wishList + '```')
-        .setColor(config.embeds_color)
-        .setFooter('Нужно больше информации? Напишите им анонимное сообщение командой `' + prefix + 'message`!')
+            .setTitle('__Информация о партнёре__')
+            .setDescription('<@' + row.partnerId + '>\n\nПожелания: ```' + wishList + '```')
+            .setColor(config.embeds_color)
+            .setFooter('Нужно больше информации? Напишите им анонимное сообщение командой `' + prefix + 'message`!')
 
         message.channel.send(partnerEmbed);
     },
