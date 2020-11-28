@@ -6,7 +6,7 @@ const methods   = require('../utils/methods');
 module.exports = {
     name: 'setwishlist',
     aliases: ['wishlist'],
-    description: 'Редактирует пожелания, чтобы Дед Мороз знал, что вам подарить!',
+    description: 'Редактирует пожелания, чтобы Дед Мороз знал, что вам подарить!☃',
     hasArgs: true,
     requirePartner: false,
     worksInDM: true,
