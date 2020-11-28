@@ -6,7 +6,7 @@ const methods   = require('../utils/methods');
 module.exports = {
     name: 'partnerinfo',
     aliases: [''],
-    description: 'Показывает информацию о вашем партнёре и его пожелания.',
+    description: 'Показывает информацию о вашем тайном получателе и его пожелания.',
     hasArgs: false,
     requirePartner: true,
     worksInDM: true,
@@ -23,7 +23,7 @@ module.exports = {
             .setTitle('__Информация о партнёре__')
             .setDescription('<@' + row.partnerId + '>\n\nПожелания: ```' + wishList + '```')
             .setColor(config.embeds_color)
-            .setFooter('Нужно больше информации? Напишите им анонимное сообщение командой `' + prefix + 'message`!')
+            .setFooter('Нужно больше информации? Напишите ему анонимное сообщение командой `' + prefix + 'message`!')
 
         message.channel.send(partnerEmbed);
     },
