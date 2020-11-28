@@ -47,7 +47,7 @@ module.exports = {
             }
         } else if (args[0] === 'даритель') {
             const gifterEmbed = new Discord.MessageEmbed()
-                .setTitle('__Вы получили сообщение от вашего получателя ' + message.author.tag + '!__')
+                .setTitle('__Вы получили сообщение от вашего подаркополучателя ' + message.author.tag + '!__')
                 .setDescription('\n' + args.slice(1).join(' '))
                 .setColor(config.embeds_color)
                 .setFooter('Вы можете ответить командой `' + prefix + 'message получатель <сообщение>`')
@@ -57,7 +57,7 @@ module.exports = {
                 const gifter = await message.client.users.fetch(gifterRow.userId);
                 await gifter.send(getAttachments(message, gifterEmbed));
 
-                message.reply('Ваше сообщение отправлено дарителю!');
+                message.reply('Сообщение отправлено вашему Деду Морозу!❄');
             } catch (err) {
                 message.reply('Ошибка при отправке сообщения: ```' + err + '```');
             }
