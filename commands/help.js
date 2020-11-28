@@ -33,9 +33,9 @@ module.exports = {
 
             var embedDesc = [command.description];
 
-            if (command.worksInDM) embedDesc.push('Эта команда работает в личных сообщения');
+            if (command.worksInDM) embedDesc.push('Эта команда работает в личных сообщениях.');
 
-            if (command.forceDMsOnly) embedDesc.push('Эта команда работает ТОЛЬКО в личных сообщения');
+            if (command.forceDMsOnly) embedDesc.push('Эта команда работает ТОЛЬКО в личных сообщениях.');
 
             if (command.adminOnly) embedDesc.push('Эту команду могут использовать только админы бота.');
 
@@ -43,7 +43,7 @@ module.exports = {
 
             if (command.requirePartner) embedDesc.push('Для этой команды нужно, чтобы у вас уже был партнёр.');
 
-            if (command.guildModsOnly) embedDesc.push('Для этого команды нужно, чтобы у вас было разрешение `MANAGE_SERVER`.');
+            if (command.guildModsOnly) embedDesc.push('Для этой команды нужно, чтобы у вас было разрешение `MANAGE_SERVER`.');
 
             const cmdEmbed = new Discord.MessageEmbed()
                 .setTitle('__Команда ' + (command.name.charAt(0).toUpperCase() + command.name.slice(1)) + '__')
